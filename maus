@@ -18,7 +18,7 @@ SHELL=/usr/bin/bash
 # ================================================================================= #
 
 # Here, the preferred AUR helper can be set manually by the user. for example, AUR_Helper="trizen" uses Trizen despite any other installed AUR helpers.
-AUR_Helper=""
+AUR_Helper="yay"
 
 # Traps (ctrl+c)
 trap killproc INT
