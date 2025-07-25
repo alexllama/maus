@@ -677,6 +677,29 @@ _request_sudo() {
     fi
 }
 
+# Function to create a list of all packages, flatpaks and snaps installed on the system
+_generate_package_lists() {
+    local package_file="$HOME/.installed_packages.txt"
+    echo ""
+    echo " Updating list of all instapped packages, flatpaks and snaps ..."
+    echo "*************************************" > "$package_file"
+    echo "*              Packages             *" >> "$package_file"
+    echo "*************************************" >> "$package_file"
+    pacman -Qqe >> "$package_file"
+    echo "" >> "$package_file"
+    echo "*************************************" >> "$package_file"
+    echo "*              Flatpaks             *" >> "$package_file"
+    echo "*************************************" >> "$package_file"
+    flatpak list --app --columns=application >> "$package_file"
+    echo "" >> "$package_file"
+    echo "*************************************" >> "$package_file"
+    echo "*               Snaps               *" >> "$package_file"
+    echo "*************************************" >> "$package_file"
+    snap list | awk 'NR>1 {print $1}' >> "$package_file"
+    echo " List saved to" $package_file
+    echo ""
+}
+
 ########################
 ### Run the Script.. ###
 ########################
@@ -704,6 +727,7 @@ _main() {
         _pacdiff
         _flatpak
         _snapd
+        _generate_package_lists
 
         echo -e "\e[1m Elapsed Time: \e[0m"
     }
